@@ -1,0 +1,200 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Ventas proveedor
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                TOP 5 de tus productos más vendidos
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto col-sm-9">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>Nombre del producto</th>
+                                <th>Cantidad vendida</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for linea in top_5 %}
+                            <tr>
+                                <td style="vertical-align:middle;"><b>{{linea.nombre}}</b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.cantidad_vendida}} uds</b></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Gananancias por producto
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <div>
+                        <canvas id="myChart2" height="400" width="800"></canvas>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                              const ctx = document.getElementById('myChart2');
+                              new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                  labels: [{% for la in label %} '{{la}}', {% endfor %}],
+                                  datasets: [{
+                                    label: 'Grafico',
+                                    data: [{% for da in data %} '{{da}}', {% endfor %}],
+                                    borderWidth: 3
+                                  }]
+                                },
+                                options: {
+                                  scales: {
+                                    y: {
+                                      beginAtZero: true
+                                    }
+                                  }
+                                }
+                              });
+
+
+                    </script>
+                </div>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <form method="post" class="form-group" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label class="text-muted" for="select_product"><h3 class="text-muted">Filtra por producto</h3>
+                        </label>
+                        <select style="text-align: center" class="form-control" id="select_product"
+                                name="select_product">
+                            <option value="Todos">Todos tus productos</option>
+                            {% for product in productos %}
+                            <option value="{{product.id}}">{{product.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="btn btn-outline-warning" type="submit" value="Buscar"
+                               style="width: 200px">
+                    </form>
+                </div>
+            </div>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Ventas realizadas
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>Producto buscado</th>
+                                <th>Cantidad de ventas realizadas</th>
+                                <th>Ganancias por producto buscado</th>
+                                <th>Comision por producto buscado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align:middle;"><b> {{producto_buscado}} </b></td>
+                                <td style="vertical-align:middle;"><b> {{cantidad}} </b></td>
+                                <td style="vertical-align:middle;"><b> {{ganancia}} € </b></td>
+                                <td style="vertical-align:middle;"><b> {{comision}} % </b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>ID pedido</th>
+                                <th>ID L-pedido</th>
+                                <th>Fecha de solictud del pedido</th>
+                                <th>Producto vendido</th>
+                                <th>Ganancias</th>
+                                <th>Unidades vendidas</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for linea in lineas_venta %}
+                            <tr>
+                                <td style="vertical-align:middle;"><b>{{linea.pedido.id}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.id}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.pedido.created}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.producto.nombre}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.total_proveedor}} €</b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.cantidad}} </b></td>
+                                {% endfor %}
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+{% if creado == 1 %}
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Pedidos
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <form method="post" class="form-group" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label class="text-muted" for="select_perfil"><h4>Busca tu perfil</h4></label>
+                        <select style="text-align: center" class="form-control" id="select_perfil" name="select_perfil">
+                            <option value="Todos">Todos</option>
+                            {% for perfil in perfiles %}
+                            <option value="{{perfil.id}}">{{perfil.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="btn btn-outline-warning" type="submit" value="Buscar"
+                               style="width: 200px">
+                        <p></p>
+                    </form>
+                </div>
+            </div>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>Perfil buscado</th>
+                                <th>Cantidad de pedidos</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align:middle;"><b>{{nombre_perfil}}</b></td>
+                                <td style="vertical-align:middle;"><b> {{cantidad}}</b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Gráfica cantidad pedidos
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <div>
+                        <canvas id="myChart" height="400"></canvas>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                              const ctx = document.getElementById('myChart');
+                              new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                  labels: [{% for la in labels %} '{{la}}', {% endfor %}],
+                                  datasets: [{
+                                    label: 'Pedidos por perfil',
+                                    data: [{% for da in data %} '{{da}}', {% endfor %}],
+                                    borderWidth: 3
+                                  }]
+                                },
+                                options: {
+                                  scales: {
+                                    y: {
+                                      beginAtZero: true
+                                    }
+                                  }
+                                }
+                              });
+
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>ID pedido</th>
+                                <th>Fecha de solicitud</th>
+                                <th>Perfil seleccionado</th>
+                                <th>Coste</th>
+                                <th>Ver detalle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for pedido in todos_pedidos %}
+                            <tr>
+                                <td style="vertical-align:middle;"><b>{{pedido.id}}</b></td>
+                                <td style="vertical-align:middle;"><b>{{pedido.created}}</b></td>
+                                <td style="vertical-align:middle;"><b>{{pedido.cliente}}</b></td>
+                                <td style="vertical-align:middle;"><b>{{pedido.total_pedido}} €</b></td>
+                                <td>
+                                    <a href="{% url 'Detalle_Linea_Pedido' pedido.id %}"
+                                       class="btn btn-outline-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-box-arrow-in-up-right"
+                                             viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            </tbody>
+                        </table>
+                        {% if messages %}
+                        {% for mensaje in messages %}
+                        <span class="alert alert-{{mensaje.tags}}"> {{mensaje}} </span>
+                        {% endfor %}
+                        {% endif %}
+                        <p></p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container text-center">
+    <p></p>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Para acceder a esta sección, Realizar realizar un pedido.
+                <a href="/tienda/" class="card-link">Ir a tienda</a>
+            </h3>
+            <p></p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

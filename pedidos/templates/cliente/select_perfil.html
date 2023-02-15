@@ -1,0 +1,100 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{{ STATIC_URL }}js/jquery.js
+{% block content %}
+
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Busca tu perfil
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <form method="post" class="form-group" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label class="text-muted" for="select_perfil">BUSCA TU PERFIL</label>
+                        <select style="text-align: center" class="form-control" id="select_perfil" name="select_perfil"
+                                required="">
+                            {% for perfil in todos_perfiles %}
+                            <option value="{{perfil.id}}"> {{perfil.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="btn btn-outline-warning  btn-lg" type="submit" value="BUSCAR"
+                               style="width: 200px">
+                        <p></p>
+                    </form>
+                </div>
+            </div>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        {% for perfil in buscado %}
+        <div class="col align-self-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-muted"><b>Nombre: {{perfil.nombre}}</b></h5>
+                    <p class="card-text text-muted">Apellidos: {{perfil.apellido}} </p>
+                    <p class="card-text text-muted">Correo: {{perfil.correo}}</p>
+                    <p class="card-text text-muted">Dirección: {{perfil.direccion}}</p>
+                </div>
+                <div class="card-body">
+                    <a onclick="class="disabled-link"" href="{% url 'Procesar_Pedido' perfil.id  %}" onclick="disable" class="btn btn-outline-info"
+                       id="seleccionar_btn-static"> Selecccionar
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto"></div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Todos Los Perfiles
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for perfil in todos_perfiles %}
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-muted"><b>Nombre: {{perfil.nombre}}</b></h5>
+                    <p class="card-text text-muted">Apellidos: {{perfil.apellido}} </p>
+                    <p class="card-text text-muted">Correo: {{perfil.correo}}</p>
+                    <p class="card-text text-muted">Dirección: {{perfil.direccion}}</p>
+                    <p></p>
+                    <a href="{% url 'Procesar_Pedido' perfil.id  %}" class="btn btn-outline-info"
+                       id="seleccionar_btn-{{perfil.id}}"> Selecccionar
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

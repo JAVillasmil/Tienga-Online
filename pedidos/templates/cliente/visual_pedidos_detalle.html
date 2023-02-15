@@ -1,0 +1,93 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Busca tu perfil
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>ID pedido</th>
+                                <th>Fecha del pedido</th>
+                                <th>Total del pedido</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align:middle;"><b>{{pedido.id}}</b></td>
+                                <td style="vertical-align:middle;"><b> {{pedido.created}}</b></td>
+                                <td style="vertical-align:middle;"><b>{{total_list}} €</b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container text-center">
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="table-responsive">
+
+                        <table ALIGN="center" class="table table-bordered">
+                            <thead class="table-secondary">
+                            <tr>
+                                <th>Imagen producto</th>
+                                <th>Nombre del producto</th>
+                                <th>Descripción del producto</th>
+                                <th>Proveedor</th>
+                                <th>Precio unidad</th>
+                                <th>Cantidades</th>
+                                <th>Precio/Uds</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for linea in detalle %}
+                            <tr>
+                                {% if linea.producto.imagen %}
+                                <td style="vertical-align:middle;"><img src="{{linea.producto.imagen.url}}"
+                                                                        width="200px"
+                                                                        height="200px"></td>
+                                {% else %}
+                                <td><b>Sin Imagen</b></td>
+                                {% endif %}
+                                <td style="vertical-align:middle;"><b>{{linea.producto.nombre}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.producto.descripcion}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.producto.proveedor.nombre}} €</b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.producto.precio}} €</b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.cantidad}} </b></td>
+                                <td style="vertical-align:middle;"><b>{{linea.total_producto}} €</b></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="/pedidos/Verificar_Pedidos" class="btn btn-outline-info">Volver</a>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
