@@ -1,0 +1,94 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+
+{% if creado == 0 %}
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Nuestras productos.
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <p></p>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Actualmente, no hay productos que mostrar.
+            </h3>
+            <p></p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <p></p>
+            <h3 class="text-muted">
+                Nuestros productos
+            </h3>
+        </div>
+    </div>
+    <p></p>
+    <div style="float:right">
+        {% if request.user.is_authenticated %}
+        {% else %}
+        <div class="alert alert-secondary text-center"><a href="/autenticacion/Logear" class="card-link">Login para ver carro </a></div>
+        {% endif %}
+        {% for group in user.groups.all %}
+        {% if group.name == 'Clientes' %}
+        {% include "carro/widget.html" %}
+        {% else %}
+        <div class="alert alert-secondary text-center"> Tienda Solo Accessible para Clientes</div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <p></p>
+    <p></p>
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4" style="margin-bottom:50px">
+            <div class="card" style="width:100%; height:100%; margin: 5px 5px;">
+                {% if producto.imagen %}
+                <img src="{{producto.imagen.url}}" width="100" height="200" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title" style="text-align: center">Nombre: {{producto.nombre}}</h5>
+                    <p class="card-text text-muted" style="text-align: center">Precio: {{producto.precio}} &nbsp;€ </p>
+                    {% if producto.stock == 0 %}
+                    <p class="card-text text-muted" style="text-align:center;"><b><font color="Red">Stock: SIN
+                        STOCK</font></b></p>
+                    {% else %}
+                    <p class="card-text text-muted" style="text-align: center">Stock: {{producto.stock}}</p>
+                    {% endif %}
+                    <p class="card-text text-muted" style="text-align: center">Proveedor: <a
+                            href="{% url 'Conocer_Proveedor' producto.proveedor.id %}" class="card-link">{{producto.proveedor.nombre}}</a>
+                    </p>
+                    <p class="card-text text-muted" style="text-align: center">Categoria: {{producto.categorias}}</p>
+                    <p class="card-text text-muted" style="text-align: center">Descripción:</p>
+                    <p class="card-text text-muted" style="text-align: center">{{producto.descripcion}}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-auto col-sm-9">
+                            <a href="{% url 'carro:Agregar_Producto' producto.id %}" class="btn btn-outline-success">
+                                Agregar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="" class="btn btn-outline-dark">
+        Subir</a>
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Editado de proveeedor
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <form method="post" class="form-group" action="{% url 'Actualizar_Proveedor' prove.id  %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_proveedor" class="form-label;asteriskField"><b>*Nombre</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="nombre_proveedor"
+                           name="nombre_proveedor"
+                           placeholder="{{prove.nombre}}" maxlength="50" value="{{prove.nombre}}">
+                </div>
+                <div class="mb-3">
+                    <label for="cif_proveedor" class="form-label;asteriskField"><b>*CIF</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="cif_proveedor"
+                           name="cif_proveedor"
+                           placeholder="{{prove.cif}}" maxlength="9" value="{{prove.cif}}">
+                </div>
+                <div class="mb-3">
+                    <label for="correo_proveedor" class="form-label;asteriskField"><b>*Correo Electrónico</b></label>
+                    <input style="text-align: center" type="email" class="form-control" id="correo_proveedor"
+                           name="correo_proveedor"
+                           placeholder="{{prove.correo}}" maxlength="50" value="{{prove.correo}}">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion_proveedor" class="form-label;asteriskField"><b>*Dirección</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="direccion_proveedor"
+                           name="direccion_proveedor"
+                           placeholder="{{prove.direccion}}" maxlength="100" value="{{prove.direccion}}">
+                </div>
+                <input class="btn btn-outline-secondary" type="submit" value="Actualizar" style="width: 200px">
+                <p></p>
+                <a href="/proveedor/Verificar_Proveedor" class="btn btn-outline-info">Volver</a>
+                <p></p>
+            </form>
+             <p> </p>
+             <p> </p>
+            {% if messages %}
+            {% for mensaje in messages %}
+            <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

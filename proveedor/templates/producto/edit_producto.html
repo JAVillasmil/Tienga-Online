@@ -1,0 +1,88 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Registra Tu Producto
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <form method="post" class="form-group" action="{% url 'Actualizar_Producto' product.id %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_producto" class="form-label;asteriskField"><b>*Nombre</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="nombre_producto"
+                           name="nombre_producto" maxlength="50"
+                           placeholder="{{product.nombre}}">
+                </div>
+                <label for="categoria_producto" class="form-label;asteriskField"><b>*Categoria</b></label>
+                <select style="text-align: center" class="form-control" id="categoria_producto"
+                        name="categoria_producto">
+                    <option value="">Mantener Categoria</option>
+                    {% for cate in categoria %}
+                    <option value="{{cate.id}}"> {{cate.nombre}}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="mb-3">
+                    <p></p>
+                    <label for="precio_producto" class="form-label;asteriskField"><b>*Precio</b></label>
+                    <input style="text-align: center" type="number" class="form-control" step=".01"
+                           pattern="^\d*(\.\d{0,2})?$"
+                           id="precio_producto" name="precio_producto"
+                           maxlength="50" placeholder="{{product.precio}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="stock_producto" class="form-label;asteriskField"><b>*Stock</b></label>
+                    <input style="text-align: center" type="number" class="form-control" id="stock_producto"
+                           name="stock_producto" min="0" step="1"
+                           placeholder="{{product.stock}}" maxlength="50">
+                </div>
+
+                <div class="mb-8">
+                    <label for="imagen_producto" class="form-label">Imagen del Producto</label>
+                    <input style="hidden" class="form-control" type="file" id="imagen_producto" name="imagen_producto">
+                </div>
+                <div class="mb-3">
+                    {% if product.imagen %}
+                    <label for="imagen_producto">Antigua Imagen</label>
+                    <br>
+                    <img src="{{product.imagen.url}}" class="card-img-top" style="width:200px; height:200px">
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion_producto" class="form-label;asteriskField"><b>* Descripción del
+                        Producto</b></label>
+                    <textarea style="text-align: center" class="form-control" id="descripcion_producto" cols="5"
+                              name="descripcion_producto"
+                              rows="5" placeholder="{{product.descripcion}}" maxlength="100"
+                    ></textarea>
+                </div>
+                 <input class="btn btn-outline-secondary " type="submit" value="Actualizar" style="width: 200px">
+                <p></p>
+                <a href="/proveedor/Verificar_Productos" class="btn btn-outline-info">Volver</a>
+
+            </form>
+        </div>
+    </div>
+    {% if messages %}
+    {% for mensaje in messages %}
+    <p></p>
+    <p></p>
+    <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}<br/>

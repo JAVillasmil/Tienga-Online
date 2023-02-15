@@ -1,0 +1,77 @@
+<table class="table table-bordered" style="color: black">
+    <thead>
+    <tr>
+        <th colspan="5" class="text-center">
+            <h4 style="text-align: center"><b>Carro de compras</b></h4>
+        </th>
+    </tr>
+    <tr>
+        <th style="text-align: center">Producto</th>
+        <th style="text-align: center">Stock</th>
+        <th style="text-align: center">Cantidad</th>
+        <th style="text-align: center">Opciones</th>
+        <th style="text-align: center">Precio/Uds</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if request.session.carro.items %}
+    {% for key, value in request.session.carro.items %}
+    <tr>
+        <td class="card-text text-muted" style="text-align: center">{{value.nombre}}</td>
+        <td class="card-text text-muted" style="text-align: center">{{value.stock}}</td>
+        <td class="card-text text-muted" style="text-align: center">{{value.cantidad}}</td>
+        <td>
+            <a href="{% url 'carro:Agregar_Producto' value.producto_id %}" class="btn btn-outline-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+            </a>
+            <a href="{% url 'carro:Restar_Producto' value.producto_id %}" class="btn btn-outline-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                </svg>
+            </a>
+
+        </td>
+        <td class="card-text text-muted" style="text-align: center"> {{value.precio_cantidad}} $</td>
+    </tr>
+
+    {% endfor %}
+    {% else %}
+    <br/>
+    <tr colspan="3">
+        <div class="alert alert-dark  text-center">
+            Sin productos añadidos
+        </div>
+
+    </tr>
+    {% endif %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="5" class="text-center">
+            <h5 style="color: black"><b>Total: {{importe_total_carro}} € </b></h5>
+        </td>
+    </tr>
+    {% if request.session.carro.items %}
+    <tr>
+        <td colspan="5" class="text-center">
+            <a href="{% url 'Pedido_Detalle' %}" class="btn btn-outline-primary"> Continuar con el
+                pedido </a>
+        </td>
+    </tr>
+    {% endif %}
+    {% if messages %}
+    {% for mensaje in messages %}
+    <tr>
+        <td colspan="3" class="text-center">
+            <span class="alert alert-{{mensaje.tags}}"> {{mensaje}} </span>
+        </td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+    </tfoot>
+</table>

@@ -1,0 +1,155 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+{% if creado == 0 %}
+<p></p>
+<div class="row justify-content-md-center">
+    <div class="col-md-auto col-sm-9">
+        <h3 class="text-muted">
+            Para acceder a esta sección, Debe de crear un proveedor, para ello debe ir al area de
+            <a href="{% url 'Crear_Proveedor' %}" class="card-link">Crear proveedor.</a>
+        </h3>
+        <p></p>
+    </div>
+</div>
+{% endif %}
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Tus productos
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="text-muted" scope="col"><h4>Alarmas de stock</h4></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for producto in productos %}
+                {% if producto.stock == 0 %}
+                <tr>
+                    <th scope="row"><a href="{% url 'Editar_Producto' producto.id  %}" class="card-link text-danger">
+                        Producto: {{producto.nombre}} sin stock, Clic para reponer</a></th>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <p></p>
+        </div>
+    </div>
+    <div class="container text-center">
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto col-sm-9">
+                <h3 class="text-muted">
+                    Grafica stock
+                </h3>
+                <p></p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto col-sm-9">
+                <div class="row justify-content-md-center">
+                    <div class="col">
+                        <div>
+                            <canvas id="myChart" height="400"></canvas>
+                        </div>
+
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                              const ctx = document.getElementById('myChart');
+                              new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                  labels: [{% for la in productos %} '{{la.nombre}}', {% endfor %}],
+                                  datasets: [{
+                                    label: 'Stock por Productos',
+                                    data: [{% for da in productos %} '{{da.stock}}', {% endfor %}],
+                                    borderWidth: 3
+                                  }]
+                                },
+                                options: {
+                                  scales: {
+                                    y: {
+                                      beginAtZero: true
+                                    }
+                                  }
+                                }
+                              })
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto col-sm-9">
+                <h3 class="text-muted">
+                    Administra tus productos
+                </h3>
+                <p></p>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for producto in productos %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {% if producto.imagen %}
+                        <img src="{{producto.imagen.url}}" width="100" height="200" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center">Nombre: {{producto.nombre}}</h5>
+                            <p class="card-text text-muted" style="text-align: center">Precio: {{producto.precio}}
+                                &nbsp;€ </p>
+                            {% if producto.stock == 0 %}
+                            <p class="card-text text-muted" style="text-align:center;"><b><font
+                                    color="Red">Stock:
+                                Reponer stock</font></b></p>
+                            {% else %}
+                            <p class="card-text text-muted" style="text-align: center">Stock: {{producto.stock}}</p>
+                            {% endif %}
+                            <p class="card-text text-muted" style="text-align: center">Categoria:
+                                {{producto.categorias}}</p>
+                            <p class="card-text text-muted" style="text-align: center">Descripción:</p>
+                            <p class="card-text text-muted" style="text-align: center">{{producto.descripcion}}</p>
+                            <p></p>
+                            <a href="{% url 'Editar_Producto' producto.id  %}" class="btn btn-outline-warning">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </a>
+                            <a href="{% url 'Borrar_Producto' producto.id  %}" class="btn btn-outline-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <p></p>
+        <a href="" class="btn btn-outline-dark">Subir</a>
+    </div>
+</div>
+{% endblock %}

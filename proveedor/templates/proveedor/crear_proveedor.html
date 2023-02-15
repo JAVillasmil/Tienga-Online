@@ -1,0 +1,82 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+{% if creado == 0 %}
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Crea tu proveedor
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <form method="post" class="form-group" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_proveedor" class="form-label;asteriskField"><b>*Nombre</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="nombre_proveedor"
+                           name="nombre_proveedor"
+                           placeholder="Ingrese su nombre" maxlength="50" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="cif_proveedor" class="form-label;asteriskField"><b>*CIF</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="cif_proveedor"
+                           name="cif_proveedor"
+                           placeholder="Ingrese su apellido" required="" maxlength="9">
+                </div>
+                <div class="mb-3">
+                    <label for="correo_proveedor" class="form-label;asteriskField"><b>*Correo Electrónico</b></label>
+                    <input style="text-align: center" type="email" class="form-control" id="correo_proveedor"
+                           name="correo_proveedor"
+                           placeholder="name@example.com" maxlength="50" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion_proveedor" class="form-label;asteriskField"><b>*Dirección</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="direccion_proveedor"
+                           name="direccion_proveedor"
+                           placeholder="Ingrese su dirección" maxlength="100" required="">
+                </div>
+
+                <input class="btn btn-outline-secondary" type="submit" value="Crear" style="width: 200px">
+                <p></p>
+                {% if messages %}
+                {% for mensaje in messages %}
+                <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+                {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container text-center">
+    <p></p>
+    <p></p>
+    {% if messages %}
+    {% for mensaje in messages %}
+    <p></p>
+    <p></p>
+    <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+    {% endfor %}
+    {% endif %}
+    <p></p>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                <p>Proveedor creado, puede dirigirse a </p>
+                <a href="{% url 'Verificar_Proveedor' %}" class="card-link">Administrar proveedor</a>
+                <p></p>
+                <a href="/proveedor/Crear_Producto" class="card-link">Registrar productos</a>
+            </h3>
+            <p></p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
