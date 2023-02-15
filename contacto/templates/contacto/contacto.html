@@ -1,0 +1,46 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Contactanos
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+
+            <form method="post" class="form-group" action="">
+                {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre_contacto" class="form-label;asteriskField"><b>*Nombre</b></label>
+                        <input style="text-align: center" type="text" class="form-control" id="nombre_contacto" name="nombre_contacto"
+                               placeholder="Ingrese su nombre" maxlength="50" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo_contacto" class="form-label;asteriskField"><b>*Correo Electrónico</b></label>
+                        <input style="text-align: center" type="email" class="form-control" id="correo_contacto" name="correo_contacto"
+                               placeholder="name@example.com" maxlength="50" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contenido_contacto" class="form-label;asteriskField"><b>*¿Como podemos ayudarlo?</b></label>
+                        <textarea style="text-align: center" class="form-control" id="contenido_contacto" cols="5" name="contenido_contacto"
+                                  rows="5" placeholder="Hola, me gustaría .........." maxlength="300"
+                                  required=""></textarea>
+                    </div>
+                    <input class="btn btn-outline-dark" type="submit" value="Enviar" style="width: 200px">
+                    <p></p>
+                    {% if messages %}
+                    {% for mensaje in messages %}
+                    <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+                    {% endfor %}
+                    {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Identifícate
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <form method="post" class="form-group" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="usuario" class="form-label;asteriskField"><b>*Usuario</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="usuario"
+                           name="usuario"
+                           placeholder="Ingrese su usuario" maxlength="150" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label;asteriskField"><b>*Contraseña</b></label>
+                    <input style="text-align: center" type="password" class="form-control" id="password"
+                           name="password"
+                           placeholder="Ingrese su contraseña" required="">
+                </div>
+                <input class="btn btn-outline-secondary" type="submit" value="Login" style="width: 200px">
+                <p></p>
+                {% if messages %}
+                {% for mensaje in messages %}
+                <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+                {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

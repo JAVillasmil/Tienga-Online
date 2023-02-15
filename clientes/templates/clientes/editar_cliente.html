@@ -1,0 +1,56 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Editado de perfil
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <form method="post" class="form-group" action="{% url 'Actualizar_Perfil' perfil.id  %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_perfil" class="form-label;"><b>Nombre</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="nombre_perfil"
+                           name="nombre_perfil"
+                           placeholder="{{perfil.nombre}}" maxlength="50" value="{{perfil.nombre}}">
+                </div>
+                <div class="mb-3">
+                    <label for="apellido_perfil" class="form-label"><b>Apellido</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="apellido_perfil"
+                           name="apellido_perfil"
+                          placeholder="{{perfil.apellido}}" maxlength="50" value="{{perfil.apellido}}">
+                </div>
+                <div class="mb-3">
+                    <label for="correo_perfil" class="form-label"><b>Correo Electrónico</b></label>
+                    <input style="text-align: center" type="email" class="form-control" id="correo_perfil"
+                           name="correo_perfil"
+                           placeholder="{{perfil.correo}}" maxlength="50" value="{{perfil.correo}}">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion_perfil" class="form-label"><b>Dirección</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="direccion_perfil"
+                           name="direccion_perfil"
+                           placeholder="{{perfil.direccion}}" maxlength="100" value="{{perfil.direccion}}">
+                </div>
+                 <a href="/clientes/Verificar_Perfil" class="btn btn-outline-info">           Volver           </a>
+                <input class="btn btn-outline-secondary" type="submit" value="Actualizar" style="width: 200px">
+                <p></p>
+                {% if messages %}
+                {% for mensaje in messages %}
+                <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+                {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

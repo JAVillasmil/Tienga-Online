@@ -1,0 +1,65 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Crea tu perfil cliente
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+
+            <form method="post" class="form-group" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_perfil" class="form-label;asteriskField"><b>*Nombre</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="nombre_perfil"
+                           name="nombre_perfil"
+                           placeholder="Ingrese su nombre" maxlength="50" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="apellido_perfil" class="form-label;asteriskField"><b>*Apellido</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="apellido_perfil"
+                           name="apellido_perfil"
+                           placeholder="Ingrese su apellido" maxlength="50" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="correo_perfil" class="form-label;asteriskField"><b>*Correo Electrónico</b></label>
+                    <input style="text-align: center" type="email" class="form-control" id="correo_perfil"
+                           name="correo_perfil"
+                           placeholder="name@example.com" maxlength="50" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion_perfil" class="form-label;asteriskField"><b>*Dirección</b></label>
+                    <input style="text-align: center" type="text" class="form-control" id="direccion_perfil"
+                           name="direccion_perfil"
+                           placeholder="Ingrese su dirección" maxlength="100" required="">
+                </div>
+                <input class="btn btn-outline-dark" type="submit" value="Crear" style="width: 200px">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto col-sm-9">
+                        <h3 class="text-muted">
+                            <p></p>
+                            <a href="/clientes/Verificar_Perfil" class="btn btn-outline-info">Administrar perfiles </a>
+                            <a href="/pedidos/Pedido_Detalle"class="btn btn-outline-info">Carro de compra</a>
+                        </h3>
+                        <p></p>
+                    </div>
+                </div>
+                <p></p>
+                {% if messages %}
+                {% for mensaje in messages %}
+                <span class="alert alert-{{mensaje.tags}}" style="color: black"> {{mensaje}} </span>
+                {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

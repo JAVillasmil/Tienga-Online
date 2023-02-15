@@ -1,0 +1,124 @@
+{% extends "ProyectoWebApp/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Gestión negocio
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Relacion entre tipos de usuarios
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <div>
+                        <canvas id="myChart2" width="300"></canvas>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                              const ctx = document.getElementById('myChart2');
+                              new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                  labels: ['Parte proveedor','Parte empresa'],
+                                  datasets: [{
+                                    label: 'My First Dataset',
+                                     data: ['{{total_proveedor}}', '{{total_empresa}}'],
+                                    borderWidth: 3
+                                  }]
+                                },
+                                options: {
+                                       hoverOffset: 4
+                                }
+                              });
+
+                    </script>
+                </div>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <h3 class="text-muted">
+                Datos relevantes
+            </h3>
+            <p></p>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto col-sm-9">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align:left;"><b>Total ganancias </b></td>
+                    <td style="text-align:right;">{{total_ganancias}} €</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Porcentaje para proveedor </b></td>
+                    <td style="text-align:right;"> {{por_proveedor}}%</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Porcentaje para la empresa </b></td>
+                    <td style="text-align:right;"> {{por_empresa}}%</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left"><b>Pedidos Recibidos </b></td>
+                    <td style="text-align:right;"> {{cantidad_pedidos}}</td>
+                </tr>
+                <tr>
+                    <td style=text-align:left;"><b>Cantidad de productos vendidos</b></td>
+                    <td style="text-align:right;"> {{cantidad_productos_vendidos.total}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Producto más vendido</b></td>
+                    <td style="text-align:right;"> {{producto_bestseller.nombre}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Cantidad vendida</b></td>
+                    <td style="text-align:right;">{{cantidad}}Uds</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Precio</b></td>
+                    <td style="text-align:right;">{{producto_bestseller.precio}}Uds</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left"><b>Proveedor</b></td>
+                    <td style=text-align:right;">{{producto_bestseller.proveedor.nombre}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Categoria</b></td>
+                    <td style="text-align:right;">{{producto_bestseller.categorias.nombre}}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;"><b>Ganancia por unidad vendida</b></td>
+                    <td style="text-align:right;"> {{producto_bestseller.ganancia_empresa}}€/Ud</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
